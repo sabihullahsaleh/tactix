@@ -1,26 +1,156 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Neon accent colors */
+  --color-neon-cyan: #00f5ff;
+  --color-neon-green: #39ff14;
+  --color-neon-pink: #ff006e;
+  --color-neon-purple: #bf5fff;
+  --color-neon-yellow: #ffe600;
+
+  /* Dark base palette */
+  --color-base-950: #07070d;
+  --color-base-900: #0a0a0f;
+  --color-base-800: #111118;
+  --color-base-700: #1a1a24;
+  --color-base-600: #22222f;
+  --color-base-500: #2e2e3e;
+  --color-base-400: #3d3d52;
+  --color-base-300: #5a5a7a;
+  --color-base-200: #8888aa;
+  --color-base-100: #ccccdd;
+
+  /* Glass */
+  --color-glass-white: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #07070d;
+  --foreground: #e8e8f0;
+  --font-geist-sans: system-ui, sans-serif;
+  --font-geist-mono: monospace;
+
+  /* Glow shadows */
+  --glow-cyan: 0 0 20px rgba(0, 245, 255, 0.3);
+  --glow-green: 0 0 20px rgba(57, 255, 20, 0.3);
+  --glow-pink: 0 0 20px rgba(255, 0, 110, 0.3);
+  --glow-purple: 0 0 20px rgba(191, 95, 255, 0.3);
+
+  /* Pitch colors */
+  --pitch-green: #1a472a;
+  --pitch-stripe: #1e5230;
+  --pitch-line: rgba(255, 255, 255, 0.7);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-card {
+  background: rgba(17, 17, 24, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Neon glow utilities */
+.glow-cyan { box-shadow: var(--glow-cyan); }
+.glow-green { box-shadow: var(--glow-green); }
+.glow-pink { box-shadow: var(--glow-pink); }
+.glow-purple { box-shadow: var(--glow-purple); }
+
+.text-glow-cyan { text-shadow: 0 0 10px rgba(0, 245, 255, 0.8); }
+.text-glow-green { text-shadow: 0 0 10px rgba(57, 255, 20, 0.8); }
+
+/* Neon border glow */
+.border-glow-cyan { border-color: rgba(0, 245, 255, 0.5); box-shadow: 0 0 12px rgba(0, 245, 255, 0.2), inset 0 0 12px rgba(0, 245, 255, 0.05); }
+.border-glow-green { border-color: rgba(57, 255, 20, 0.5); box-shadow: 0 0 12px rgba(57, 255, 20, 0.2), inset 0 0 12px rgba(57, 255, 20, 0.05); }
+.border-glow-pink { border-color: rgba(255, 0, 110, 0.5); box-shadow: 0 0 12px rgba(255, 0, 110, 0.2), inset 0 0 12px rgba(255, 0, 110, 0.05); }
+
+/* Shimmer skeleton loader */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 245, 255, 0.3); }
+  50% { box-shadow: 0 0 24px rgba(0, 245, 255, 0.7); }
+}
+
+.pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 245, 255, 0.4); }
+
+/* Pitch stripes */
+.pitch-stripe {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pitch-green) 0px,
+    var(--pitch-green) 60px,
+    var(--pitch-stripe) 60px,
+    var(--pitch-stripe) 120px
+  );
+}
+
+/* Number counter animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up { animation: countUp 0.5s ease-out forwards; }
+
+/* Formation transition */
+.player-token {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Drag overlay */
+.drag-overlay {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), var(--glow-cyan);
+  z-index: 9999;
+}
+
+/* Active drag source */
+.drag-source {
+  opacity: 0.4;
+  transform: scale(0.95);
 }
